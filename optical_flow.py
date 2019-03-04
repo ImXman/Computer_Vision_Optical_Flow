@@ -12,11 +12,8 @@ from scipy import signal
 
 frame1_path=str(sys.argv[1])
 frame2_path=str(sys.argv[2])
-window_size=int(sys.argv[3])
+wd=int(sys.argv[3])
 k_harris =float(sys.argv[4])
-
-frame1_path="frames/Daylight_00007.jpeg"
-frame2_path="frames/Daylight_00008.jpeg"
 
 ##convolution function for spatial derivative
 def conv_de(img):
@@ -45,6 +42,7 @@ def lk_optcflow(frame1,frame2,window_size=5,k=0.05):
     ##estimate optical flow of corner regions
     dst[dst>0.01*dst.max()]=255
     
+    ##blur image
     f1 = cv2.GaussianBlur(frame1,(7,7),3)
     f1 = f1/255
     f2 = cv2.GaussianBlur(frame2,(7,7),3)
@@ -107,13 +105,13 @@ def main():
     f2 = cv2.imread(frame2_path,0)
     
     mag,angle,ux,vy=lk_optcflow(f1,f2,\
-                                window_size=window_size,k=k_harris)
-
+                                window_size=wd,k=k_harris)
+    
     move_ang=sns.heatmap(angle,cmap="RdBu")
     move_ang.get_figure().savefig("angle_optical_flow.jpeg",dpi=1200)
     
     move_mag=sns.heatmap(np.log(mag+1),cmap="RdBu")
     move_mag.get_figure().savefig("mag_optical_flow.jpeg",dpi=1200)
+
 if __name__ == '__main__':
     main()
-    

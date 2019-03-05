@@ -34,8 +34,10 @@ def lk_optcflow(frame1,frame2,window_size=5,k=0.05):
     blur1 = cv2.GaussianBlur(frame1,(7,7),3)
     blur2 = cv2.GaussianBlur(frame1,(7,7),9)
     blurs = blur1-blur2
+    blurs = np.float32(blurs)
     ##find corner regions in frame1 by harris corner detection
-    dst = cv2.cornerHarris(blurs,2,3,k)
+    ##use the same window size
+    dst = cv2.cornerHarris(blurs,window_size,3,k)
     ##dilation for marking the corners
     dst = cv2.dilate(dst,None)
     ##threshhold for optimum result

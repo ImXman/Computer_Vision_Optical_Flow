@@ -50,7 +50,7 @@ def lk_optcflow(frame1,frame2,window_size=5,k=0.05):
     f2 = cv2.GaussianBlur(frame2,(7,7),3)
     f2 = f2/255
     It=f2-f1
-    (dx,dy) = conv_de(f1/255)
+    (dx,dy) = conv_de(f1)
     mag = np.zeros(frame1.shape)
     ang = np.zeros(frame1.shape)
     u = np.zeros(frame1.shape)
